@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.urls import reverse
 
 from .models import Place
 
@@ -17,7 +18,7 @@ def index(request):
           "properties": {
             "title": place.title,
             "placeId": "moscow_legends",
-            "detailsUrl": "something"
+            "detailsUrl": reverse('place_detail', kwargs={'place_id':place.id})
           }
         }
         places_geojson["features"].append(feature)
