@@ -22,10 +22,16 @@ class Image(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField('Фото')
-    order_number = models.IntegerField('Позиция')
+
+    order_number = models.IntegerField(
+        'Позиция',
+        default=0,
+        blank=False,
+        null=False
+    )
 
     class Meta:
-        ordering = ['-order_number']
+        ordering = ['order_number']
         verbose_name = 'фотография'
         verbose_name_plural = 'фотографии'
 

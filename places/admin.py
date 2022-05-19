@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Place, Image
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin, SortableAdminBase
 
 
-class ImageInline(admin.TabularInline):
+class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
-    fields = ('image', 'image_prewiew', 'order_number',)
+    fields = ('order_number', 'image', 'image_prewiew',)
     readonly_fields = ['image_prewiew']
 
     def image_prewiew(self, obj):
@@ -21,18 +22,21 @@ class ImageInline(admin.TabularInline):
             height=height,
             )
         )
+    
+    def get_extra(self, request, obj=None, **kwargs):
+        return 0
 
 @admin.register(Place)
-class PLaceAdmin(admin.ModelAdmin):
+class PLaceAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [
         ImageInline,
     ]
 
 
-
 @admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
-    fields = ('image', 'image_prewiew', 'order_number',)
+class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
+    fields = ('order_number', 'image', 'image_prewiew',)
+    list_display=  ('order_number', 'image', 'image_prewiew',)
     readonly_fields = ['image_prewiew']
 
     def image_prewiew(self, obj):
