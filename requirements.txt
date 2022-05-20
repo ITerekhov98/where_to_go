@@ -3,3 +3,4 @@ pillow
 django-admin-sortable2
 django-tinymce
 environs==9.5.0
+django-tinymce
