@@ -1,4 +1,4 @@
 Django
-pillow==9.1.1
-django-admin-sortable2==2.0.4
-django-tinymce==3.4.0
+pillow
+django-admin-sortable2
+django-tinymce
