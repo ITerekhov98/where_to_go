@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from adminsortable2.admin import SortableAdminMixin, \
+                                 SortableInlineAdminMixin, \
+                                 SortableAdminBase
+
 from .models import Place, Image
-from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin, SortableAdminBase
 
 
 class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
@@ -11,20 +14,21 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
 
     def image_prewiew(self, obj):
         width = obj.image.width
-        height=obj.image.height
+        height = obj.image.height
         if height > 200:
             ratio = 200 / height
             height *= ratio
             width *= ratio
         return format_html('<img src="{url}" width="{width}" height={height} />'.format(
-            url = obj.image.url,
+            url=obj.image.url,
             width=width,
             height=height,
             )
         )
-    
+
     def get_extra(self, request, obj=None, **kwargs):
         return 0
+
 
 @admin.register(Place)
 class PLaceAdmin(SortableAdminBase, admin.ModelAdmin):
@@ -37,18 +41,18 @@ class PLaceAdmin(SortableAdminBase, admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     fields = ('order_number', 'image', 'image_prewiew',)
-    list_display=  ('order_number', 'image', 'image_prewiew',)
+    list_display = ('order_number', 'image', 'image_prewiew',)
     readonly_fields = ['image_prewiew']
 
     def image_prewiew(self, obj):
         width = obj.image.width
-        height=obj.image.height
+        height = obj.image.height
         if height > 200:
             ratio = 200 / height
             height *= ratio
             width *= ratio
         return format_html('<img src="{url}" width="{width}" height={height} />'.format(
-            url = obj.image.url,
+            url=obj.image.url,
             width=width,
             height=height,
             )

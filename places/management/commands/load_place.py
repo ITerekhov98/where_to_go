@@ -1,10 +1,10 @@
-import json
-from django.core.management.base import BaseCommand, CommandError
-from django.core.files.base import ContentFile
-
 import requests
 
+from django.core.management.base import BaseCommand
+from django.core.files.base import ContentFile
+
 from places.models import Place, Image
+
 
 class Command(BaseCommand):
     help = 'To load place specify link with json-formatted info about'
@@ -18,11 +18,11 @@ class Command(BaseCommand):
             response.raise_for_status()
             place_serialized = response.json()
             place, created = Place.objects.get_or_create(
-                title = place_serialized['title'],
-                description_short = place_serialized['description_short'],
-                description_long = place_serialized['description_long'],
-                latitude = place_serialized['coordinates']['lat'],
-                longitude = place_serialized['coordinates']['lng'],
+                title=place_serialized['title'],
+                description_short=place_serialized['description_short'],
+                description_long=place_serialized['description_long'],
+                latitude=place_serialized['coordinates']['lat'],
+                longitude=place_serialized['coordinates']['lng'],
             )
             if created:
                 for index, image_link in enumerate(place_serialized['imgs'], start=1):
@@ -30,8 +30,10 @@ class Command(BaseCommand):
                     response.raise_for_status()
                     image_binary = ContentFile(response.content)
                     image = Image(place=place)
-                    image.image.save(f'{place.title}_{index}.jpg', image_binary, save=True)
+                    image.image.save(
+                        f'{place.title}_{index}.jpg',
+                        image_binary,
+                        save=True
+                    )
                     image.save()
-                    # place.images.add(f'{place.title}_{index}', image_binary, save=True)
-
             self.stdout.write(self.style.SUCCESS('Successfully added new place'))

@@ -12,20 +12,28 @@ def index(request):
         feature = {
             "type": "Feature",
             "geometry": {
-            "type": "Point",
-            "coordinates": [place.longitude, place.latitude]
-          },
-          "properties": {
-            "title": place.title,
-            "placeId": "moscow_legends",
-            "detailsUrl": reverse('place_detail', kwargs={'place_id':place.id})
-          }
+                "type": "Point",
+                "coordinates": [place.longitude, place.latitude]
+            },
+            "properties": {
+                "title": place.title,
+                "placeId": "moscow_legends",
+                "detailsUrl": reverse(
+                    'place_detail',
+                    kwargs={'place_id': place.id})
+            }
         }
         places_geojson["features"].append(feature)
-    return render(request, 'index.html', context={'places_geojson':places_geojson})
+    return render(request,
+                  'index.html',
+                  context={'places_geojson': places_geojson})
+
 
 def fetch_place(request, place_id):
-    place = get_object_or_404(Place.objects.prefetch_related('images'), pk=place_id)
+    place = get_object_or_404(
+        Place.objects.prefetch_related('images'),
+        pk=place_id)
+
     place_serialized = {
         "title": place.title,
         "imgs": [image.image.url for image in place.images.all()],
@@ -36,4 +44,6 @@ def fetch_place(request, place_id):
             "lat": place.latitude
         }
     }
-    return JsonResponse(place_serialized, json_dumps_params={'ensure_ascii': False, 'indent': 2})
+    return JsonResponse(
+        place_serialized,
+        json_dumps_params={'ensure_ascii': False, 'indent': 2})

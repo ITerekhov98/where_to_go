@@ -31,7 +31,7 @@ SECRET_KEY = env.str('SECRET_KEY', default='some_secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1',])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['127.0.0.1'])
 
 
 # Application definition
@@ -125,8 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 
-STATIC_ROOT =  os.path.join(BASE_DIR, "assets")
-STATIC_URL = 'assets/'
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+STATIC_URL = env.str('STATIC_URL', default='assets/')
+
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "static"),
 ]
@@ -136,5 +137,5 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = env.str('MEDIA_URL', default='/media/')
