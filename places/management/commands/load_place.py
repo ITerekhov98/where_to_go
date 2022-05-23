@@ -19,10 +19,12 @@ class Command(BaseCommand):
             place_serialized = response.json()
             place, created = Place.objects.get_or_create(
                 title=place_serialized['title'],
-                description_short=place_serialized['description_short'],
-                description_long=place_serialized['description_long'],
-                latitude=place_serialized['coordinates']['lat'],
-                longitude=place_serialized['coordinates']['lng'],
+                defaults={
+                    'description_short': place_serialized['description_short'],
+                    'description_long': place_serialized['description_long'],
+                    'latitude': place_serialized['coordinates']['lat'],
+                    'longitude': place_serialized['coordinates']['lng'],
+                }
             )
             if created:
                 for index, image_link in enumerate(place_serialized['imgs'], start=1):
