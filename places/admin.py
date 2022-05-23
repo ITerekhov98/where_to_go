@@ -19,10 +19,11 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
             ratio = 200 / height
             height *= ratio
             width *= ratio
-        return format_html('<img src="{url}" width="{width}" height={height} />'.format(
-            url=obj.image.url,
-            width=width,
-            height=height,
+        return format_html(
+            '<img src="{url}" width="{width}" height={height} />'.format(
+                url=obj.image.url,
+                width=width,
+                height=height,
             )
         )
 
@@ -51,9 +52,10 @@ class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
             ratio = 200 / height
             height *= ratio
             width *= ratio
-        return format_html('<img src="{url}" width="{width}" height={height} />'.format(
-            url=obj.image.url,
-            width=width,
-            height=height,
+        return format_html(
+            '<img src="{url}" width="{width}" height={height} />'.format(
+                url=obj.image.url,
+                width=width,
+                height=height,
             )
         )

@@ -24,15 +24,18 @@ def index(request):
             }
         }
         places_geojson["features"].append(feature)
-    return render(request,
-                  'index.html',
-                  context={'places_geojson': places_geojson})
+    return render(
+        request,
+        'index.html',
+        context={'places_geojson': places_geojson},
+    )
 
 
 def fetch_place(request, place_id):
     place = get_object_or_404(
         Place.objects.prefetch_related('images'),
-        pk=place_id)
+        pk=place_id,
+    )
 
     place_serialized = {
         "title": place.title,
@@ -41,9 +44,10 @@ def fetch_place(request, place_id):
         "description_long": place.description_long,
         "coordinates": {
             "lng": place.longitude,
-            "lat": place.latitude
+            "lat": place.latitude,
         }
     }
     return JsonResponse(
         place_serialized,
-        json_dumps_params={'ensure_ascii': False, 'indent': 2})
+        json_dumps_params={'ensure_ascii': False, 'indent': 2},
+    )
