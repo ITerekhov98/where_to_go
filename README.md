@@ -1,8 +1,6 @@
 # where_to_go
 ## Map with some interesting places in Moscow
 
-[Демо сайта](http://iterekhov.pythonanywhere.com/)
-
 ## Установка и запуск
 Скачайте репозиторий с кодом на ваше устройство, откройте корневой каталог и установите необходимые зависимости командой:
 ```
